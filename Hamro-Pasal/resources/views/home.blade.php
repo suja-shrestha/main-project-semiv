@@ -1,28 +1,104 @@
+@php use Illuminate\Support\Str; @endphp
 @extends('layouts.app')
 @section('content')
 <style>
+    /* Responsive Products Grid */
+@media (max-width: 992px) {
+    .products-grid {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .product-card {
+        width: calc(50% - 1rem);
+    }
+}
+
+@media (max-width: 576px) {
+    .product-card {
+        width: 100%;
+    }
+}
+
+/* Responsive Newsletter Form */
+@media (max-width: 576px) {
+    .newsletter-form {
+        flex-direction: column;
+    }
+
+    .newsletter-input,
+    .newsletter-button {
+        width: 100%;
+    }
+}
+
+/* Responsive Product Modal */
+@media (max-width: 576px) {
+    #product-modal .modal-content {
+        padding: 1rem;
+    }
+}
+
+/* Responsive Services */
+@media (max-width: 768px) {
+    .services-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+
+/* Responsive Footer */
+@media (max-width: 768px) {
+    .footer-content {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+
+/* Responsive Hero Content */
+@media (max-width: 576px) {
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    .cta-button {
+        font-size: 1rem;
+        padding: 0.8rem 1.5rem;
+    }
+}
+
+/* Responsive Categories */
+@media (max-width: 768px) {
+    .categories-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+
     * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
     }
-.view-info-btn {
-  width: 100%;
-  background: linear-gradient(45deg, #667eea, #764ba2);
-  color: white;
-  border: none;
-  padding: 0.8rem;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 0.5rem;
-}
 
-.view-info-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-}
+    .view-info-btn {
+        width: 100%;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        padding: 0.8rem;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 0.5rem;
+    }
+
+    .view-info-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
 
     #modal-image {
         max-width: 100%;
@@ -581,6 +657,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
+                <!-- Hero Section -->
                 <section class="hero">
                     <div class="container">
                         <div class="hero-content">
@@ -642,72 +719,138 @@
                         </div>
                     </div>
                 </section>
-                {{-- featured-products --}}
-                <section class="featured-products" id="featured">
-                    <div class="container">
-                        <h2 class="section-title">Featured Products</h2>
 
-                        <div class="products-grid">
-                            @foreach ($products as $product)
-                            <div class="product-card" data-product-id="{{ $product->id }}">
-                                <div class="product-image">
-                                    <img src="{{ $product->image_url ?? 'https://via.placeholder.com/150' }}"
-                                        alt="{{ $product->name }}"
-                                        style="width: 100%; height: 100%; object-fit: cover;">
-                                    <div class="product-badge">
-                                        {{ $product->stock > 0 ? 'New' : 'Out of Stock' }}
-                                    </div>
-                                </div>
-
-                                <div class="product-info">
-                                    <h3 class="product-title">{{ $product->name }}</h3>
-
-                                    <p class="product-description">{{ $product->description }}</p>
-
-                                    <div class="product-price">Rs. {{ number_format($product->price) }}</div>
-
-                                    <div class="product-rating">
-                                        <div class="stars">
-                                            @php
-                                            $rating = isset($product->rating) ? (int) $product->rating : 0;
-                                            @endphp
-                                            @for ($i = 1; $i <= 5; $i++) @if ($i <=$rating) <i class="fas fa-star"></i>
-                                                @else
-                                                <i class="far fa-star"></i>
-                                                @endif
-                                                @endfor
-                                        </div>
-                                        <span>({{ is_array($product->reviews) ? count($product->reviews) : 0 }}
-                                            reviews)</span>
-                                    </div>
-
-                                    <button class="add-to-cart">Add to Cart</button>
-
-                                    <!-- New View Info button -->
-                                    <button class="view-info-btn" data-name="{{ $product->name }}"
-                                        data-description="{{ $product->description }}"
-                                        data-price="{{ number_format($product->price) }}"
-                                        data-image="{{ $product->image_url ?? 'https://via.placeholder.com/150' }}">View
-                                        Info</button>
+                <!-- === General Products by Category === -->
+@foreach ($productsByCategory as $category => $products)
+    @if ($products->count())
+        <section class="category-products" id="category-{{ \Illuminate\Support\Str::slug($category) }}">
+            <div class="container">
+                <h2 class="section-title">{{ $category }}</h2>
+                <div class="products-grid">
+                    @foreach ($products as $product)
+                        <div class="product-card" data-product-id="{{ $product->id }}">
+                            <div class="product-image">
+                                <img src="{{ $product->image_url ?? 'https://via.placeholder.com/150' }}"
+                                     alt="{{ $product->name }}"
+                                     style="width: 100%; height: 100%; object-fit: cover;">
+                                <div class="product-badge">
+                                    {{ $product->stock > 0 ? 'In Stock' : 'Out of Stock' }}
                                 </div>
                             </div>
+
+                            <div class="product-info">
+                                <h3 class="product-title">{{ $product->name }}</h3>
+                                <p class="product-description">{{ $product->description }}</p>
+                                <div class="product-price">Rs. {{ number_format($product->price) }}</div>
+
+                                <div class="product-rating">
+                                    <div class="stars">
+                                        @php $rating = isset($product->rating) ? (int) $product->rating : 0; @endphp
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            @if ($i <= $rating)
+                                                <i class="fas fa-star"></i>
+                                            @else
+                                                <i class="far fa-star"></i>
+                                            @endif
+                                        @endfor
+                                    </div>
+                                    <span>({{ is_array($product->reviews) ? count($product->reviews) : 0 }} reviews)</span>
+                                </div>
+
+                                <button class="add-to-cart">Add to Cart</button>
+
+                                <button class="view-info-btn"
+                                        data-name="{{ $product->name }}"
+                                        data-description="{{ $product->description }}"
+                                        data-price="Rs. {{ number_format($product->price) }}"
+                                        data-image="{{ $product->image_url ?? 'https://via.placeholder.com/150' }}">
+                                    View Info
+                                </button>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
+@endforeach
+
+             
+                <!-- Featured Products Section -->
+                @if (collect($featuredByCategory)->flatten()->count())
+                <section class="featured-products" id="featured-products">
+                    <div class="container">
+                        <h2 class="section-title">Featured Products</h2>
+                        <div class="products-grid">
+                            @foreach ($featuredByCategory as $products)
+                            @foreach ($products as $product)
+                            @include('partials.product-card', ['product' => $product])
+                            @endforeach
                             @endforeach
                         </div>
                     </div>
+                </section>
+                @endif
 
-                    <!-- Popup Modal -->
-                    <div id="product-modal" class="modal-overlay" style="display:none;">
-                        <div class="modal-content">
-                            <span class="close-modal">&times;</span>
-                            <img id="modal-image" src="" alt="" />
-                            <h3 id="modal-name"></h3>
-                            <p id="modal-description"></p>
-                            <div id="modal-price"></div>
+                <!-- New Arrivals Section -->
+                @if (collect($newArrivalsByCategory)->flatten()->count())
+                <section class="featured-products" id="new-arrivals">
+                    <div class="container">
+                        <h2 class="section-title">New Arrivals</h2>
+                        <div class="products-grid">
+                            @foreach ($newArrivalsByCategory as $products)
+                            @foreach ($products as $product)
+                            @include('partials.product-card', ['product' => $product])
+                            @endforeach
+                            @endforeach
                         </div>
                     </div>
                 </section>
+                @endif
+
+                <!-- Hot Sales Section -->
+                @if (collect($hotSalesByCategory)->flatten()->count())
+                <section class="featured-products" id="hot-sales">
+                    <div class="container">
+                        <h2 class="section-title">Hot Sales</h2>
+                        <div class="products-grid">
+                            @foreach ($hotSalesByCategory as $products)
+                            @foreach ($products as $product)
+                            @include('partials.product-card', ['product' => $product])
+                            @endforeach
+                            @endforeach
+                        </div>
+                    </div>
+                </section>
+                @endif
+
+                <!-- Recommended Items Section -->
+                @if (collect($recommendedByCategory)->flatten()->count())
+                <section class="featured-products" id="recommended">
+                    <div class="container">
+                        <h2 class="section-title">Recommended Items</h2>
+                        <div class="products-grid">
+                            @foreach ($recommendedByCategory as $products)
+                            @foreach ($products as $product)
+                            @include('partials.product-card', ['product' => $product])
+                            @endforeach
+                            @endforeach
+                        </div>
+                    </div>
+                </section>
+                @endif
 
 
+                <!-- Popup Modal -->
+                <div id="product-modal" class="modal-overlay" style="display:none;">
+                    <div class="modal-content">
+                        <span class="close-modal">&times;</span>
+                        <img id="modal-image" src="" alt="Product Image" />
+                        <h3 id="modal-name"></h3>
+                        <p id="modal-description"></p>
+                        <div id="modal-price"></div>
+                    </div>
+                </div>
 
                 <!-- Services Section -->
                 <section class="services">
@@ -759,13 +902,43 @@
                     </div>
                 </section>
 
-
-
-
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const modal = document.getElementById('product-modal');
+        const modalImage = document.getElementById('modal-image');
+        const modalName = document.getElementById('modal-name');
+        const modalDescription = document.getElementById('modal-description');
+        const modalPrice = document.getElementById('modal-price');
+        const closeModalBtn = document.querySelector('.close-modal');
+
+        document.querySelectorAll('.view-info-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                modalImage.src = button.getAttribute('data-image');
+                modalName.textContent = button.getAttribute('data-name');
+                modalDescription.textContent = button.getAttribute('data-description');
+                modalPrice.textContent = button.getAttribute('data-price');
+                modal.style.display = 'block';
+            });
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', e => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+
 <script>
     // Add to cart functionality
     document.querySelectorAll('.add-to-cart').forEach(button => {

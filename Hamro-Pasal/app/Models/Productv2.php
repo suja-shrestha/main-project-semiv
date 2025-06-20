@@ -17,12 +17,18 @@ class Productv2 extends Model
         'stock',
         'image_url',
         'reviews',
+        'category',
+        'is_new',
+        'is_featured',
+        'is_hot_sale',
+        'is_best_deal',
+
     ];
 
     // Cast 'reviews' JSON field to array
     protected $casts = [
         'reviews' => 'array',
-        'price'   => 'float',
-        'stock'   => 'integer',
+        'price' => 'float',
+        'stock' => 'integer',
     ];
 }

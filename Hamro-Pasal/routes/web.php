@@ -9,8 +9,7 @@ use App\Http\Controllers\HomeController;
 Auth::routes();
 
 
-Route::get('/', [HomeController::class, 'home'])->name('welcome'); // Public homepage with products
-Route::get('/home', [HomeController::class, 'index'])->middleware('auth')->name('home'); // Dashboard for logged in users
+Route::get('/', [HomeController::class, 'index'])->middleware('auth')->name('home'); // Dashboard for logged in users
 
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/products', [Productv2Controller::class, 'index'])->name('productv2.index');

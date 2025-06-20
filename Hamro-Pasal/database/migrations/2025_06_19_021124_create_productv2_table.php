@@ -18,6 +18,7 @@ class CreateProductv2Table extends Migration
             $table->json('reviews')->nullable();
             $table->timestamps();
         });
+        
     }
 
     public function down()
