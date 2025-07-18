@@ -20,11 +20,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
 
-
+    <style>
+       
+    </style>
 </head>
 
 <body>
-    
+
     <div id="app">
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
             <div class="container">
@@ -106,7 +108,7 @@
                 </div>
             </div>
         </nav>
-
+      
         <main class="py-4">
             @yield('content')
         </main>
@@ -116,11 +118,12 @@
         </footer>
     </div>
     <!-- Vanta.js Dependencies -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.birds.min.js"></script>
-
-<script>
-  var setVanta = () => {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.birds.min.js"></script>
+    <!-- Spline Viewer Script -->
+<script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.32/build/spline-viewer.js"></script>
+    <script>
+        var setVanta = () => {
     if (window.VANTA) window.VANTA.BIRDS({
       el: ".s-page-1 .s-section-1 .s-section",
       mouseControls: true,
@@ -138,7 +141,7 @@
   };
 
   document.addEventListener("DOMContentLoaded", setVanta);
-</script>
+    </script>
 
 </body>
 

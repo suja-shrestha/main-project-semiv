@@ -652,22 +652,25 @@
             padding: 0 1rem;
         }
     }
-    .heros
-    {
+
+    .heros {
         padding: 0 1rem;
         background: transparent;
         color: white;
         text-align: center;
         padding: 4rem 0;
     }
+
     .vanta-section {
         height: 50vh;
     }
 </style>
 
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
+
             <div class="s-page-1">
                 <div class="s-section-1">
                     <div class="s-section vanta-section">
@@ -688,8 +691,8 @@
             </div>
 
             <div class="card">
-               
 
+              
                 <!-- Categories Section -->
                 <section class="categories">
                     <div class="container">
@@ -740,6 +743,18 @@
                         </div>
                     </div>
                 </section>
+  <spline-viewer url="https://prod.spline.design/8WosSMkHSXlP3z7V/scene.splinecode" style=" 
+   
+    width: 100%;
+    height: 400px;
+    z-index: 9999;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    overflow: hidden;
+    background: white;
+    margin-bottom:20px;
+  ">
+
+                </spline-viewer>
 
                 <!-- === General Products by Category === -->
                 @foreach ($productsByCategory as $category => $products)
