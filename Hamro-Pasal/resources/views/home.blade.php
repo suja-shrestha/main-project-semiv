@@ -3,78 +3,78 @@
 @section('content')
 <style>
     /* Responsive Products Grid */
-@media (max-width: 992px) {
-    .products-grid {
-        flex-wrap: wrap;
-        justify-content: center;
+    @media (max-width: 992px) {
+        .products-grid {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .product-card {
+            width: calc(50% - 1rem);
+        }
     }
 
-    .product-card {
-        width: calc(50% - 1rem);
-    }
-}
-
-@media (max-width: 576px) {
-    .product-card {
-        width: 100%;
-    }
-}
-
-/* Responsive Newsletter Form */
-@media (max-width: 576px) {
-    .newsletter-form {
-        flex-direction: column;
+    @media (max-width: 576px) {
+        .product-card {
+            width: 100%;
+        }
     }
 
-    .newsletter-input,
-    .newsletter-button {
-        width: 100%;
-    }
-}
+    /* Responsive Newsletter Form */
+    @media (max-width: 576px) {
+        .newsletter-form {
+            flex-direction: column;
+        }
 
-/* Responsive Product Modal */
-@media (max-width: 576px) {
-    #product-modal .modal-content {
-        padding: 1rem;
-    }
-}
-
-/* Responsive Services */
-@media (max-width: 768px) {
-    .services-grid {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    }
-}
-
-/* Responsive Footer */
-@media (max-width: 768px) {
-    .footer-content {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    }
-}
-
-/* Responsive Hero Content */
-@media (max-width: 576px) {
-    .hero h1 {
-        font-size: 2rem;
+        .newsletter-input,
+        .newsletter-button {
+            width: 100%;
+        }
     }
 
-    .hero p {
-        font-size: 1rem;
+    /* Responsive Product Modal */
+    @media (max-width: 576px) {
+        #product-modal .modal-content {
+            padding: 1rem;
+        }
     }
 
-    .cta-button {
-        font-size: 1rem;
-        padding: 0.8rem 1.5rem;
+    /* Responsive Services */
+    @media (max-width: 768px) {
+        .services-grid {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
     }
-}
 
-/* Responsive Categories */
-@media (max-width: 768px) {
-    .categories-grid {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    /* Responsive Footer */
+    @media (max-width: 768px) {
+        .footer-content {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
     }
-}
+
+    /* Responsive Hero Content */
+    @media (max-width: 576px) {
+        .hero h1 {
+            font-size: 2rem;
+        }
+
+        .hero p {
+            font-size: 1rem;
+        }
+
+        .cta-button {
+            font-size: 1rem;
+            padding: 0.8rem 1.5rem;
+        }
+    }
+
+    /* Responsive Categories */
+    @media (max-width: 768px) {
+        .categories-grid {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+    }
 
     * {
         margin: 0;
@@ -203,7 +203,7 @@
 
     /* Hero Section */
     .hero {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: transparent;
         color: white;
         padding: 4rem 0;
         position: relative;
@@ -652,22 +652,43 @@
             padding: 0 1rem;
         }
     }
+    .heros
+    {
+        padding: 0 1rem;
+        background: transparent;
+        color: white;
+        text-align: center;
+        padding: 4rem 0;
+    }
+    .vanta-section {
+        height: 50vh;
+    }
 </style>
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <div class="card">
-                <!-- Hero Section -->
-                <section class="hero">
-                    <div class="container">
-                        <div class="hero-content">
-                            <h1>Welcome to Hamro Pasal</h1>
-                            <p>Discover amazing products at unbeatable prices. Shop from the comfort of your home with
-                                fast delivery across Nepal.</p>
-                            <a href="#featured" class="cta-button">Shop Now <i class="fas fa-arrow-right"></i></a>
-                        </div>
+            <div class="s-page-1">
+                <div class="s-section-1">
+                    <div class="s-section vanta-section">
+                        <section class="hero">
+                            <div class="container">
+                                <div class="hero-content">
+                                    <h1>Welcome to Hamro Pasal</h1>
+                                    <p>Discover amazing products at unbeatable prices. Shop from the comfort of your
+                                        home with
+                                        fast delivery across Nepal.</p>
+                                    <a href="#featured" class="cta-button">Shop Now <i
+                                            class="fas fa-arrow-right"></i></a>
+                                </div>
+                            </div>
+                        </section>
                     </div>
-                </section>
+                </div>
+            </div>
+
+            <div class="card">
+               
 
                 <!-- Categories Section -->
                 <section class="categories">
@@ -721,61 +742,59 @@
                 </section>
 
                 <!-- === General Products by Category === -->
-@foreach ($productsByCategory as $category => $products)
-    @if ($products->count())
-        <section class="category-products" id="category-{{ \Illuminate\Support\Str::slug($category) }}">
-            <div class="container">
-                <h2 class="section-title">{{ $category }}</h2>
-                <div class="products-grid">
-                    @foreach ($products as $product)
-                        <div class="product-card" data-product-id="{{ $product->id }}">
-                            <div class="product-image">
-                                <img src="{{ $product->image_url ?? 'https://via.placeholder.com/150' }}"
-                                     alt="{{ $product->name }}"
-                                     style="width: 100%; height: 100%; object-fit: cover;">
-                                <div class="product-badge">
-                                    {{ $product->stock > 0 ? 'In Stock' : 'Out of Stock' }}
-                                </div>
-                            </div>
-
-                            <div class="product-info">
-                                <h3 class="product-title">{{ $product->name }}</h3>
-                                <p class="product-description">{{ $product->description }}</p>
-                                <div class="product-price">Rs. {{ number_format($product->price) }}</div>
-
-                                <div class="product-rating">
-                                    <div class="stars">
-                                        @php $rating = isset($product->rating) ? (int) $product->rating : 0; @endphp
-                                        @for ($i = 1; $i <= 5; $i++)
-                                            @if ($i <= $rating)
-                                                <i class="fas fa-star"></i>
-                                            @else
-                                                <i class="far fa-star"></i>
-                                            @endif
-                                        @endfor
+                @foreach ($productsByCategory as $category => $products)
+                @if ($products->count())
+                <section class="category-products" id="category-{{ \Illuminate\Support\Str::slug($category) }}">
+                    <div class="container">
+                        <h2 class="section-title">{{ $category }}</h2>
+                        <div class="products-grid">
+                            @foreach ($products as $product)
+                            <div class="product-card" data-product-id="{{ $product->id }}">
+                                <div class="product-image">
+                                    <img src="{{ $product->image_url ?? 'https://via.placeholder.com/150' }}"
+                                        alt="{{ $product->name }}"
+                                        style="width: 100%; height: 100%; object-fit: cover;">
+                                    <div class="product-badge">
+                                        {{ $product->stock > 0 ? 'In Stock' : 'Out of Stock' }}
                                     </div>
-                                    <span>({{ is_array($product->reviews) ? count($product->reviews) : 0 }} reviews)</span>
                                 </div>
 
-                                <button class="add-to-cart">Add to Cart</button>
+                                <div class="product-info">
+                                    <h3 class="product-title">{{ $product->name }}</h3>
+                                    <p class="product-description">{{ $product->description }}</p>
+                                    <div class="product-price">Rs. {{ number_format($product->price) }}</div>
 
-                                <button class="view-info-btn"
-                                        data-name="{{ $product->name }}"
+                                    <div class="product-rating">
+                                        <div class="stars">
+                                            @php $rating = isset($product->rating) ? (int) $product->rating : 0; @endphp
+                                            @for ($i = 1; $i <= 5; $i++) @if ($i <=$rating) <i class="fas fa-star"></i>
+                                                @else
+                                                <i class="far fa-star"></i>
+                                                @endif
+                                                @endfor
+                                        </div>
+                                        <span>({{ is_array($product->reviews) ? count($product->reviews) : 0 }}
+                                            reviews)</span>
+                                    </div>
+
+                                    <button class="add-to-cart">Add to Cart</button>
+
+                                    <button class="view-info-btn" data-name="{{ $product->name }}"
                                         data-description="{{ $product->description }}"
                                         data-price="Rs. {{ number_format($product->price) }}"
                                         data-image="{{ $product->image_url ?? 'https://via.placeholder.com/150' }}">
-                                    View Info
-                                </button>
+                                        View Info
+                                    </button>
+                                </div>
                             </div>
+                            @endforeach
                         </div>
-                    @endforeach
-                </div>
-            </div>
-        </section>
-    @endif
-@endforeach
+                    </div>
+                </section>
+                @endif
+                @endforeach
 
-             
+
                 <!-- Featured Products Section -->
                 @if (collect($featuredByCategory)->flatten()->count())
                 <section class="featured-products" id="featured-products">
