@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Productv2;
+use Illuminate\Support\Str; // Import the Str class for slug-to-title conversion
 
 class HomeController extends Controller
 {
     /**
-     * Constructor - Protect only the dashboard route with auth middleware
+     * Constructor - Protects only the 'index' (dashboard) route.
      */
     public function __construct()
     {
@@ -16,118 +17,138 @@ class HomeController extends Controller
     }
 
     /**
-     * Dashboard for Authenticated Users
-     * Shows latest 8 products + featured, hot sales, new arrivals, recommended grouped by category
+     * Dashboard for Authenticated Users.
      */
     public function index()
     {
-        $categories = ['Electronics', 'Fashion', 'Home & Garden', 'Sports', 'Books', 'Gaming', 'Toys'];
-
-        // Latest 8 products for dashboard main display
-        $products = Productv2::latest()->take(8)->get();
-
-        // Prepare arrays for different product groups by category
-        $productsByCategory = [];
-        $featuredByCategory = [];
-        $hotSalesByCategory = [];
-        $newArrivalsByCategory = [];
-        $recommendedByCategory = [];
-
-        foreach ($categories as $category) {
-            $productsByCategory[$category] = Productv2::where('category', $category)
-                ->latest()
-                ->take(6)
-                ->get();
-
-            $featuredByCategory[$category] = Productv2::where('category', $category)
-                ->where('is_featured', true)
-                ->latest()
-                ->take(6)
-                ->get();
-
-            $hotSalesByCategory[$category] = Productv2::where('category', $category)
-                ->where('is_hot_sale', true)
-                ->latest()
-                ->take(6)
-                ->get();
-
-            $newArrivalsByCategory[$category] = Productv2::where('category', $category)
-                ->where('is_new', true)
-                ->latest()
-                ->take(6)
-                ->get();
-
-            $recommendedByCategory[$category] = Productv2::where('category', $category)
-                ->where('is_best_deal', true)  // Assuming 'is_best_deal' means recommended products
-                ->latest()
-                ->take(6)
-                ->get();
-        }
-
-        // Pass all data including categories to the dashboard home view
-        return view('home', compact(
-            'categories',
-            'products',
-            'productsByCategory',
-            'featuredByCategory',
-            'hotSalesByCategory',
-            'newArrivalsByCategory',
-            'recommendedByCategory'
-        ));
+        $productData = $this->getHomePageProducts();
+        $productData['products'] = Productv2::latest()->take(8)->get();
+        return view('home', $productData);
     }
 
     /**
-     * Public Homepage - Grouped Products by Category
+     * Public Homepage.
      */
     public function home()
     {
-        $categories = ['Electronics', 'Fashion', 'Home & Garden', 'Sports', 'Books', 'Gaming', 'Toys'];
+        $productData = $this->getHomePageProducts();
+        return view('welcome', $productData);
+    }
 
-        $productsByCategory = [];
-        $featuredByCategory = [];
-        $hotSalesByCategory = [];
-        $newArrivalsByCategory = [];
-        $recommendedByCategory = [];
+    /**
+     * Show products for the "Men" page.
+     */
+    public function showMenProducts()
+    {
+        $pageTitle = "Men's Collection";
+        $products = Productv2::where('gender', 'men')
+            ->orWhere('gender', 'unisex')
+            ->latest()
+            ->paginate(12);
 
-        foreach ($categories as $category) {
-            $productsByCategory[$category] = Productv2::where('category', $category)
-                ->latest()
-                ->take(6)
-                ->get();
+        return view('men', compact('products', 'pageTitle'));
+    }
 
-            $featuredByCategory[$category] = Productv2::where('category', $category)
+    /**
+     * Show products for the "Women" page.
+     */
+    public function showWomenProducts()
+    {
+        $pageTitle = "Women's Collection";
+        $products = Productv2::where('gender', 'women')
+            ->orWhere('gender', 'unisex')
+            ->latest()
+            ->paginate(12);
+
+        return view('women', compact('products', 'pageTitle'));
+    }
+
+    // In app/Http/Controllers/HomeController.php
+
+    // ... (after the showWomenProducts method)
+
+    // ===================================================================
+//     NEW METHOD TO SHOW PRODUCTS ON THE "KIDS" PAGE
+// ===================================================================
+    public function showKidsProducts()
+    {
+        $pageTitle = "Kids' Collection";
+
+        // Fetch products where gender is 'kids' OR 'unisex'
+        $products = Productv2::where('gender', 'kids')
+            ->orWhere('gender', 'unisex')
+            ->latest()
+            ->paginate(12); // Use pagination
+
+        // This will point to a new 'kids.blade.php' view we will create
+        return view('kids', compact('products', 'pageTitle'));
+    }
+
+    // ===================================================================
+    //     NEW DYNAMIC METHOD FOR ALL PRODUCT CATEGORIES
+    // ===================================================================
+    /**
+     * Shows a page of products filtered by a specific category slug.
+     * This handles routes like /category/electronics, /category/fashion, etc.
+     *
+     * @param string $category_slug The URL-friendly version of the category name.
+     * @return \Illuminate\View\View
+     */
+    public function showByCategory(string $category_slug)
+    {
+        // Convert the URL slug (e.g., "home-garden") back to the proper category name (e.g., "Home & Garden")
+        // This makes the lookup in the database possible.
+        $categoryName = Str::title(str_replace('-', ' ', $category_slug));
+
+        // Create a dynamic page title for the view
+        $pageTitle = "Category: " . $categoryName;
+
+        // Fetch products that match the determined category name
+        $products = Productv2::where('category', $categoryName)
+            ->latest()
+            ->paginate(12); // Use pagination for good performance
+
+        // This will render the 'resources/views/products/category-page.blade.php' file
+        // We pass the filtered products and the page title to the view.
+        return view('products.category-page', compact('products', 'pageTitle'));
+    }
+
+
+    // ===================================================================
+    //     PRIVATE HELPER METHOD FOR HOME/DASHBOARD PAGE PERFORMANCE
+    // ===================================================================
+    /**
+     * Fetches all products ONCE and uses fast PHP collections to group them.
+     * This reduces database queries significantly for the homepage.
+     */
+    private function getHomePageProducts(): array
+    {
+        $allProducts = Productv2::latest()->get();
+
+        return [
+            'productsByCategory' => $allProducts
+                ->groupBy('category')
+                ->map(fn($group) => $group->take(6)),
+
+            'featuredByCategory' => $allProducts
                 ->where('is_featured', true)
-                ->latest()
-                ->take(6)
-                ->get();
+                ->groupBy('category')
+                ->map(fn($group) => $group->take(6)),
 
-            $hotSalesByCategory[$category] = Productv2::where('category', $category)
+            'hotSalesByCategory' => $allProducts
                 ->where('is_hot_sale', true)
-                ->latest()
-                ->take(6)
-                ->get();
+                ->groupBy('category')
+                ->map(fn($group) => $group->take(6)),
 
-            $newArrivalsByCategory[$category] = Productv2::where('category', $category)
+            'newArrivalsByCategory' => $allProducts
                 ->where('is_new', true)
-                ->latest()
-                ->take(6)
-                ->get();
+                ->groupBy('category')
+                ->map(fn($group) => $group->take(6)),
 
-            $recommendedByCategory[$category] = Productv2::where('category', $category)
+            'recommendedByCategory' => $allProducts
                 ->where('is_best_deal', true)
-                ->latest()
-                ->take(6)
-                ->get();
-        }
-
-        // Pass all data including categories to the public welcome view
-        return view('welcome', compact(
-            'categories',
-            'productsByCategory',
-            'featuredByCategory',
-            'hotSalesByCategory',
-            'newArrivalsByCategory',
-            'recommendedByCategory'
-        ));
+                ->groupBy('category')
+                ->map(fn($group) => $group->take(6)),
+        ];
     }
 }

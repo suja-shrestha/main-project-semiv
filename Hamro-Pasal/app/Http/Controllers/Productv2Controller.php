@@ -37,27 +37,30 @@ class Productv2Controller extends Controller
      */
     public function store(Request $request)
     {
+        // Add 'gender' to the validation rules, including the new 'kids' option
         $validatedData = $request->validate([
             'name'           => 'required|string|max:255',
             'description'    => 'nullable|string',
             'price'          => 'required|numeric|min:0',
             'stock'          => 'required|integer|min:0',
-            'image_url'      => 'nullable|string', 
+            'image_url'      => 'nullable|string',
             'category'       => 'required|string|max:100',
-            'is_new'         => 'nullable',
-            'is_featured'    => 'nullable',
-            'is_hot_sale'    => 'nullable',
-            'is_best_deal'   => 'nullable',
+            'gender'         => 'required|in:men,women,kids,unisex', // <-- UPDATED RULE
+            'is_new'         => 'nullable|boolean',
+            'is_featured'    => 'nullable|boolean',
+            'is_hot_sale'    => 'nullable|boolean',
+            'is_best_deal'   => 'nullable|boolean',
         ]);
 
+        // This part correctly handles checkboxes
         $validatedData['is_new'] = $request->has('is_new');
         $validatedData['is_featured'] = $request->has('is_featured');
         $validatedData['is_hot_sale'] = $request->has('is_hot_sale');
         $validatedData['is_best_deal'] = $request->has('is_best_deal');
-        
+
+        // The 'gender' field is already included in $validatedData and will be saved automatically
         Productv2::create($validatedData);
 
-        // FIX: Reverted to the correct route name defined in your routes/web.php file
         return redirect()->route('productv2.index')->with('success', 'Product added successfully!');
     }
 
@@ -69,10 +72,9 @@ class Productv2Controller extends Controller
         $product = Productv2::findOrFail($id);
         $product->delete();
 
-        // FIX: Reverted to the correct route name here as well
         return redirect()->route('productv2.index')->with('success', 'Product deleted successfully!');
     }
-    
+
     /**
      * Show the form for editing the specified product.
      */
@@ -86,6 +88,7 @@ class Productv2Controller extends Controller
      */
     public function update(Request $request, Productv2 $product)
     {
+        // Add 'gender' to the validation rules for the update method as well
         $validatedData = $request->validate([
             'name'           => 'required|string|max:255',
             'description'    => 'nullable|string',
@@ -93,16 +96,20 @@ class Productv2Controller extends Controller
             'stock'          => 'required|integer|min:0',
             'image_url'      => 'nullable|string',
             'category'       => 'required|string|max:100',
+            'gender'         => 'required|in:men,women,kids,unisex', // <-- UPDATED RULE
+            'is_new'         => 'nullable|boolean',
+            'is_featured'    => 'nullable|boolean',
+            'is_hot_sale'    => 'nullable|boolean',
+            'is_best_deal'   => 'nullable|boolean',
         ]);
 
         $validatedData['is_new'] = $request->has('is_new');
         $validatedData['is_featured'] = $request->has('is_featured');
         $validatedData['is_hot_sale'] = $request->has('is_hot_sale');
         $validatedData['is_best_deal'] = $request->has('is_best_deal');
-        
+
         $product->update($validatedData);
 
-        // FIX: And also updated the route name in the update method
         return redirect()->route('productv2.index')->with('success', 'Product updated successfully!');
     }
 }

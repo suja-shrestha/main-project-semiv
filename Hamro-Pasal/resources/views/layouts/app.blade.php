@@ -15,7 +15,9 @@
     <!-- ======================================================= -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap"
+        rel="stylesheet">
 
     <link href="{{ asset('css/home.css') }}" rel="stylesheet">
 
@@ -24,194 +26,226 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
 
-<style>
-    /* ======================================================= */
-    /*     STEP 2: APPLYING THE NEW FONTS GLOBALLY             */
-    /* ======================================================= */
+    <style>
+        /* ======================================================= */
+        /*     STEP 2: APPLYING THE NEW FONTS GLOBALLY             */
+        /* ======================================================= */
 
-    /* Set the default font for all body text, paragraphs, and inputs */
-    body {
-        font-family: 'Inter', sans-serif;
-        background-color: #f8f9fa; /* A slightly off-white background is easier on the eyes */
-    }
+        /* Set the default font for all body text, paragraphs, and inputs */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            /* A slightly off-white background is easier on the eyes */
+        }
 
-    /* Set the more stylish font for all headings and the main brand logo */
-    h1, h2, h3, h4, h5, h6, .navbar-brand {
-        font-family: 'Poppins', sans-serif;
-    }
+        /* Set the more stylish font for all headings and the main brand logo */
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        .navbar-brand {
+            font-family: 'Poppins', sans-serif;
+        }
 
-    /* --- Your Existing Styles (with font-family inherited) --- */
-    .modern-navbar {
-        background: rgba(255, 255, 255, 0.95) !important;
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border-bottom: 1px solid rgba(59, 130, 246, 0.1);
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        transition: all 0.3s ease;
-        z-index: 1030;
-    }
+        /* --- Your Existing Styles (with font-family inherited) --- */
+        .modern-navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            z-index: 1030;
+        }
 
-    .navbar-brand {
-        font-size: 1.5rem; /* Slightly larger for better branding */
-        font-weight: 700;
-        background: linear-gradient(135deg, #2563eb, #3b82f6);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        transition: all 0.3s ease;
-    }
-
-    .navbar-brand:hover {
-        transform: scale(1.05);
-        filter: brightness(1.1);
-    }
-
-    .navbar-nav .nav-link {
-        color: #374151 !important;
-        font-weight: 500;
-        padding: 0.75rem 1.25rem !important;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-        position: relative;
-        margin: 0 0.25rem;
-         font-size: 0.9rem; /* Good size for nav links */
-    }
-
-    .navbar-nav .nav-link:hover {
-        color: #2563eb !important;
-        background: rgba(37, 99, 235, 0.1);
-        transform: translateY(-1px);
-    }
-
-    .navbar-nav .nav-link::after {
-        content: '';
-        position: absolute;
-        width: 0;
-        height: 2px;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(0%);
-        background: linear-gradient(90deg, #2563eb, #3b82f6);
-        transition: all 0.3s ease;
-    }
-
-    .navbar-nav .nav-link:hover::after {
-        width: 80%;
-        left: 10%;
-    }
-
-    .dropdown-menu {
-        border: none;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-        border-radius: 12px;
-        padding: 0.75rem 0;
-        background: rgba(255, 255, 255, 0.98);
-        backdrop-filter: blur(20px);
-        margin-top: 0.5rem;
-    }
-
-    .dropdown-item {
-        padding: 0.75rem 1.5rem;
-        transition: all 0.3s ease;
-        color: #374151;
-        font-weight: 500;
-    }
-
-    .dropdown-item:hover {
-        background: rgba(37, 99, 235, 0.1);
-        color: #2563eb;
-        transform: translateX(5px);
-    }
-
-    .search-form {
-        position: relative;
-        width: 400px;
-        height: 40px;
-    }
-
-    .search-form .form-control {
-        border: 2px solid rgba(37, 99, 235, 0.2);
-        border-radius: 25px;
-        padding: 0.75rem 1.25rem;
-        padding-right: 3.5rem;
-        background: rgba(248, 250, 252, 0.8);
-        transition: all 0.3s ease;
-        font-weight: 500;
-    }
-
-    .search-form .form-control:focus {
-        border-color: #2563eb;
-        box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.15);
-        background: white;
-    }
-
-    .search-form .btn {
-        position: absolute;
-        right: 5px;
-        top: 50%;
-        transform: translateY(-50%);
-        border-radius: 20px;
-        background: linear-gradient(135deg, #2563eb, #3b82f6);
-        border: none;
-        padding: 0.5rem 1rem;
-        transition: all 0.3s ease;
-        font-weight: 600;
-    }
-
-    .search-form .btn:hover {
-        background: linear-gradient(135deg, #1d4ed8, #2563eb);
-        transform: translateY(-50%) scale(1.05);
-        box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
-    }
-
-    .navbar-toggler {
-        border: none;
-        padding: 0.5rem;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-    }
-
-    .navbar-toggler:focus {
-        box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.15);
-    }
-
-    .navbar-toggler:hover {
-        background: rgba(37, 99, 235, 0.1);
-    }
-
-    /* --- Responsive Styles --- */
-    @media (max-width: 1200px) and (min-width: 992px) {
         .navbar-brand {
             font-size: 1.5rem;
+            /* Slightly larger for better branding */
+            font-weight: 700;
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: all 0.3s ease;
         }
-        .navbar-nav .nav-link {
-            padding: 0.75rem 0.5rem !important; 
-            font-size: 0.85rem;
-            margin: 0 0.1rem;
-        }
-        .search-form {
-            max-width: 220px;
-        }
-    }
 
-    @media (max-width: 991.98px) {
-        .navbar-collapse {
-            padding: 1rem 0;
-            text-align: center;
+        .navbar-brand:hover {
+            transform: scale(1.05);
+            filter: brightness(1.1);
         }
+
         .navbar-nav .nav-link {
-            font-size: 1rem;
-            margin: 0.5rem 0;
-            padding: 0.75rem 1rem !important;
-            display: inline-block;
+            color: #374151 !important;
+            font-weight: 500;
+            padding: 0.75rem 1.25rem !important;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            margin: 0 0.25rem;
+            font-size: 0.9rem;
+            /* Good size for nav links */
         }
-        .navbar-nav .nav-link:hover { transform: none; }
-        .navbar-nav .nav-link:hover::after { width: 50%; left: 25%; }
-        .dropdown-menu { box-shadow: none; background: transparent; text-align: center; margin-top: 0; }
-        .dropdown-item:hover { transform: none; }
-        .search-form { margin: 1rem auto; max-width: 90%; }
-    }
-</style>
+
+        .navbar-nav .nav-link:hover {
+            color: #2563eb !important;
+            background: rgba(37, 99, 235, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(0%);
+            background: linear-gradient(90deg, #2563eb, #3b82f6);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover::after {
+            width: 80%;
+            left: 10%;
+        }
+
+        .dropdown-menu {
+            border: none;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            padding: 0.75rem 0;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            margin-top: 0.5rem;
+        }
+
+        .dropdown-item {
+            padding: 0.75rem 1.5rem;
+            transition: all 0.3s ease;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(37, 99, 235, 0.1);
+            color: #2563eb;
+            transform: translateX(5px);
+        }
+
+        .search-form {
+            position: relative;
+            width: 400px;
+            height: 40px;
+        }
+
+        .search-form .form-control {
+            border: 2px solid rgba(37, 99, 235, 0.2);
+            border-radius: 25px;
+            padding: 0.75rem 1.25rem;
+            padding-right: 3.5rem;
+            background: rgba(248, 250, 252, 0.8);
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .search-form .form-control:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.15);
+            background: white;
+        }
+
+        .search-form .btn {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 20px;
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            border: none;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .search-form .btn:hover {
+            background: linear-gradient(135deg, #1d4ed8, #2563eb);
+            transform: translateY(-50%) scale(1.05);
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .navbar-toggler {
+            border: none;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.15);
+        }
+
+        .navbar-toggler:hover {
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+        /* --- Responsive Styles --- */
+        @media (max-width: 1200px) and (min-width: 992px) {
+            .navbar-brand {
+                font-size: 1.5rem;
+            }
+
+            .navbar-nav .nav-link {
+                padding: 0.75rem 0.5rem !important;
+                font-size: 0.85rem;
+                margin: 0 0.1rem;
+            }
+
+            .search-form {
+                max-width: 220px;
+            }
+        }
+
+        @media (max-width: 991.98px) {
+            .navbar-collapse {
+                padding: 1rem 0;
+                text-align: center;
+            }
+
+            .navbar-nav .nav-link {
+                font-size: 1rem;
+                margin: 0.5rem 0;
+                padding: 0.75rem 1rem !important;
+                display: inline-block;
+            }
+
+            .navbar-nav .nav-link:hover {
+                transform: none;
+            }
+
+            .navbar-nav .nav-link:hover::after {
+                width: 50%;
+                left: 25%;
+            }
+
+            .dropdown-menu {
+                box-shadow: none;
+                background: transparent;
+                text-align: center;
+                margin-top: 0;
+            }
+
+            .dropdown-item:hover {
+                transform: none;
+            }
+
+            .search-form {
+                margin: 1rem auto;
+                max-width: 90%;
+            }
+        }
+    </style>
 
 
 </head>
@@ -254,16 +288,63 @@
                                 {{ __('Categories') }}
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownCategories">
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-male me-2"></i>{{ __('Men')
-                                        }}</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-female me-2"></i>{{ __('Women')
-                                        }}</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-running me-2"></i>{{ __('Sports')
-                                        }}</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-laptop me-2"></i>{{
-                                        __('Electronics') }}</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-tshirt me-2"></i>{{ __('Fashion')
-                                        }}</a></li>
+
+                                {{-- These links point to the dedicated routes for Men and Women --}}
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('products.men') }}">
+                                        <i class="fas fa-male fa-fw me-2"></i>{{ __('Men') }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('products.women') }}">
+                                        <i class="fas fa-female fa-fw me-2"></i>{{ __('Women') }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('products.kids') }}">
+                                        <i class="fas fa-child fa-fw me-2"></i>{{ __('Kids') }}
+                                    </a>
+                                </li>
+
+                                {{-- A visual separator for better UI --}}
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+
+                                {{-- These links point to the dynamic category route, passing the correct slug --}}
+                                <li>
+                                    <a class="dropdown-item"
+                                        href="{{ route('products.category', ['category_slug' => 'sports']) }}">
+                                        <i class="fas fa-running fa-fw me-2"></i>{{ __('Sports') }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                        href="{{ route('products.category', ['category_slug' => 'electronics']) }}">
+                                        <i class="fas fa-laptop fa-fw me-2"></i>{{ __('Electronics') }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                        href="{{ route('products.category', ['category_slug' => 'fashion']) }}">
+                                        <i class="fas fa-tshirt fa-fw me-2"></i>{{ __('Fashion') }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                        href="{{ route('products.category', ['category_slug' => 'books']) }}">
+                                        <i class="fas fa-book fa-fw me-2"></i>{{-- Corrected Icon --}}
+                                        {{ __('Books') }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                        href="{{ route('products.category', ['category_slug' => 'gaming']) }}">
+                                        <i class="fas fa-gamepad fa-fw me-2"></i>{{-- Corrected Icon --}}
+                                        {{ __('Gaming') }}
+                                    </a>
+                                </li>
+
                             </ul>
                         </li>
                     </ul>

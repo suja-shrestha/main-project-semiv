@@ -7,7 +7,6 @@
     <div class="form-header">
         <div class="header-text">
             <h1>Edit Product</h1>
-            {{-- Changed Title --}}
             <p>Update the details for: <strong>{{ $product->name }}</strong></p>
         </div>
         <a href="{{ route('productv2.index') }}" class="btn btn-outline">
@@ -26,7 +25,6 @@
         </div>
     @endif
 
-    {{-- IMPORTANT: The form action and method are different --}}
     <form action="{{ route('productv2.update', $product->id) }}" method="POST">
         @csrf
         @method('PUT') {{-- This tells Laravel it's an UPDATE request --}}
@@ -37,7 +35,6 @@
                 <div class="form-card">
                     <div class="form-group">
                         <label for="name">Product Name</label>
-                        {{-- Pre-filled with existing product data --}}
                         <input type="text" id="name" name="name" value="{{ old('name', $product->name) }}" class="form-control" required>
                     </div>
 
@@ -73,7 +70,6 @@
                     <div class="form-group">
                         <label for="category">Category</label>
                         <select class="form-control" name="category" id="category">
-                            {{-- Logic to pre-select the correct category --}}
                             <option value="Electronics" {{ old('category', $product->category) == 'Electronics' ? 'selected' : '' }}>Electronics</option>
                             <option value="Fashion" {{ old('category', $product->category) == 'Fashion' ? 'selected' : '' }}>Fashion</option>
                             <option value="Home & Garden" {{ old('category', $product->category) == 'Home & Garden' ? 'selected' : '' }}>Home & Garden</option>
@@ -84,9 +80,34 @@
                     </div>
                 </div>
 
+                <!-- ========================================================== -->
+                <!--     UPDATED GENDER SELECTION CARD WITH "KIDS" OPTION     -->
+                <!-- ========================================================== -->
+                <div class="form-card">
+                    <div class="form-group">
+                        <label>Gender Category</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="gender" id="gender_men" value="men" {{ old('gender', $product->gender) == 'men' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="gender_men">Men</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="gender" id="gender_women" value="women" {{ old('gender', $product->gender) == 'women' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="gender_women">Women</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="gender" id="gender_kids" value="kids" {{ old('gender', $product->gender) == 'kids' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="gender_kids">Kids</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="gender" id="gender_unisex" value="unisex" {{ old('gender', $product->gender) == 'unisex' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="gender_unisex">Unisex / Not Applicable</label>
+                        </div>
+                    </div>
+                </div>
+
+
                 <div class="form-card">
                     <h5 class="card-subtitle">Product Flags</h5>
-                    {{-- Logic to pre-check the existing flags --}}
                     <div class="toggle-switch-group">
                         <label for="is_new" class="toggle-switch">
                             <input type="checkbox" id="is_new" name="is_new" value="1" {{ old('is_new', $product->is_new) ? 'checked' : '' }}>
@@ -120,25 +141,15 @@
         </div>
 
         <div class="form-actions">
-            {{-- Changed Button Text --}}
             <button type="submit" class="btn btn-primary">Update Product</button>
             <a href="{{ route('productv2.index') }}" class="btn btn-secondary">Cancel</a>
         </div>
     </form>
 </div>
 
-<!-- STYLES and SCRIPTS from create.blade.php can be copied here -->
+<!-- Styles and Scripts can be kept as they are -->
 <style>
-    :root {
-        --primary-color: #667eea;
-        --secondary-color: #764ba2;
-        --bg-color: #f4f7fa;
-        --card-bg: #ffffff;
-        --text-dark: #2c3e50;
-        --text-light: #8492a6;
-        --border-color: #e0e6ed;
-        --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    }
+    :root { --primary-color: #667eea; --secondary-color: #764ba2; --bg-color: #f4f7fa; --card-bg: #ffffff; --text-dark: #2c3e50; --text-light: #8492a6; --border-color: #e0e6ed; --shadow: 0 4px 6px rgba(0, 0, 0, 0.05); }
     .product-form-container { max-width: 1200px; margin: 2rem auto; font-family: 'Inter', sans-serif; }
     .form-header { margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: flex-start; }
     .form-header h1 { color: var(--text-dark); font-weight: 700; font-size: 2rem; margin: 0; }
@@ -158,6 +169,10 @@
     .btn-primary { background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); color: white; }
     .btn-secondary { background-color: #e0e6ed; color: var(--text-dark); }
     .btn-outline { background: transparent; border: 1px solid var(--border-color); color: var(--text-dark); }
+    /* Added for Bootstrap-like radio buttons */
+    .form-check { display: flex; align-items: center; margin-bottom: 0.75rem; }
+    .form-check-input { margin-right: 0.5rem; }
+    .form-check-label { margin-bottom: 0; }
 </style>
 
 <script>

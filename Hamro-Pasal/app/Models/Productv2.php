@@ -18,6 +18,7 @@ class Productv2 extends Model
         'image_url',
         'reviews',
         'category',
+        'gender', 
         'is_new',
         'is_featured',
         'is_hot_sale',
