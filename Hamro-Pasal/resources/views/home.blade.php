@@ -692,7 +692,7 @@
 
             <div class="card">
 
-              
+
                 <!-- Categories Section -->
                 <section class="categories">
                     <div class="container">
@@ -743,7 +743,7 @@
                         </div>
                     </div>
                 </section>
-  <spline-viewer url="https://prod.spline.design/8WosSMkHSXlP3z7V/scene.splinecode" style=" 
+                <spline-viewer url="https://prod.spline.design/8WosSMkHSXlP3z7V/scene.splinecode" style=" 
    
     width: 100%;
     height: 400px;
