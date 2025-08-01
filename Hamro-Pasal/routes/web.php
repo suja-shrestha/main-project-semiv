@@ -22,3 +22,4 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 Route::get('/about', action: function () {return view('aboutus');})->name('about.us');
 Route::get('/homes', action: function (): Factory|View {return view('home');})->name('homes');
+Route::get('/contactus', action: function () {return view('contactus');})->name('contact.us');
