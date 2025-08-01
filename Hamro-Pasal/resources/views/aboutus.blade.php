@@ -244,7 +244,7 @@
         font-size: 1.2rem;
         margin-bottom: 24px;
         color: #4a5568;
-        text-align: center;
+        text-align: justify;
         max-width: 900px;
         margin-left: auto;
         margin-right: auto;
@@ -312,7 +312,7 @@
         color: #4a5568;
         font-size: 1.1rem;
         line-height: 1.6;
-        text-align: center;
+        text-align: left;
     }
 
     /* Enhanced Team Section */
@@ -387,6 +387,7 @@
         color: #4a5568;
         font-size: 1rem;
         line-height: 1.6;
+        text-align: left
     }
 
     /* New Partners Section */

@@ -10,9 +10,13 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <!-- ======================================================= -->
+    <!--     STEP 1: IMPORTING THE NEW GOOGLE FONTS              -->
+    <!-- ======================================================= -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
     <link href="{{ asset('css/home.css') }}" rel="stylesheet">
 
     <!-- Scripts -->
@@ -21,7 +25,22 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
 
 <style>
-    /* --- Desktop Styles (Largely Unchanged) --- */
+    /* ======================================================= */
+    /*     STEP 2: APPLYING THE NEW FONTS GLOBALLY             */
+    /* ======================================================= */
+
+    /* Set the default font for all body text, paragraphs, and inputs */
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f8f9fa; /* A slightly off-white background is easier on the eyes */
+    }
+
+    /* Set the more stylish font for all headings and the main brand logo */
+    h1, h2, h3, h4, h5, h6, .navbar-brand {
+        font-family: 'Poppins', sans-serif;
+    }
+
+    /* --- Your Existing Styles (with font-family inherited) --- */
     .modern-navbar {
         background: rgba(255, 255, 255, 0.95) !important;
         backdrop-filter: blur(20px);
@@ -29,11 +48,11 @@
         border-bottom: 1px solid rgba(59, 130, 246, 0.1);
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         transition: all 0.3s ease;
-        z-index: 1030; /* Ensure navbar is on top */
+        z-index: 1030;
     }
 
     .navbar-brand {
-        font-size: 1rem;
+        font-size: 1.5rem; /* Slightly larger for better branding */
         font-weight: 700;
         background: linear-gradient(135deg, #2563eb, #3b82f6);
         -webkit-background-clip: text;
@@ -55,7 +74,7 @@
         transition: all 0.3s ease;
         position: relative;
         margin: 0 0.25rem;
-         font-size: 0.85rem;
+         font-size: 0.9rem; /* Good size for nav links */
     }
 
     .navbar-nav .nav-link:hover {
@@ -71,6 +90,7 @@
         height: 2px;
         bottom: 0;
         left: 50%;
+        transform: translateX(0%);
         background: linear-gradient(90deg, #2563eb, #3b82f6);
         transition: all 0.3s ease;
     }
@@ -105,8 +125,8 @@
 
     .search-form {
         position: relative;
-            width:400px;
-            height: 40px
+        width: 400px;
+        height: 40px;
     }
 
     .search-form .form-control {
@@ -136,7 +156,6 @@
         padding: 0.5rem 1rem;
         transition: all 0.3s ease;
         font-weight: 600;
-       
     }
 
     .search-form .btn:hover {
@@ -159,86 +178,38 @@
     .navbar-toggler:hover {
         background: rgba(37, 99, 235, 0.1);
     }
-@media (min-width: 1321) {
-        .navbar-brand {
-            font-size: 1.25rem;
-        }
 
-        .navbar-nav .nav-link {
-            padding: 0.75rem 1rem !important;
-            font-size: 0.9rem;
-            margin: 0 0.5rem;
-        }
-
-        .search-form {
-            max-width: 100%;
-            width: 600px
-        }
-    }
-    /* --- [FINAL FIX] RESPONSIVE FIX FOR INTERMEDIATE SCREENS --- */
+    /* --- Responsive Styles --- */
     @media (max-width: 1200px) and (min-width: 992px) {
         .navbar-brand {
-            /* Reduce brand font size to save space */
             font-size: 1.5rem;
         }
-
         .navbar-nav .nav-link {
-            /* Further reduce padding to save horizontal space */
             padding: 0.75rem 0.5rem !important; 
-            /* Reduce font size slightly */
             font-size: 0.85rem;
-            /* Reduce margin between links */
             margin: 0 0.1rem;
         }
-
         .search-form {
-            /* Make the search form even smaller */
             max-width: 220px;
         }
     }
 
-    /* --- Mobile Styles (for screens smaller than 992px) --- */
     @media (max-width: 991.98px) {
-        /* Align items vertically inside the collapsed menu */
         .navbar-collapse {
             padding: 1rem 0;
             text-align: center;
         }
-
-        /* Adjust nav links for vertical layout */
         .navbar-nav .nav-link {
-            font-size: 1rem; /* Restore font size for mobile */
+            font-size: 1rem;
             margin: 0.5rem 0;
-            padding: 0.75rem 1rem !important; /* Adjust padding for mobile */
-            display: inline-block; /* Allows for centering */
+            padding: 0.75rem 1rem !important;
+            display: inline-block;
         }
-        
-        .navbar-nav .nav-link:hover {
-            transform: none; /* Disable hover transform on mobile */
-        }
-
-        .navbar-nav .nav-link:hover::after {
-            width: 50%; /* Adjust underline effect for mobile */
-            left: 25%;
-        }
-
-        /* Style the dropdown menu for mobile */
-        .dropdown-menu {
-            box-shadow: none;
-            background: transparent;
-            text-align: center;
-            margin-top: 0;
-        }
-        
-        .dropdown-item:hover {
-            transform: none; /* Disable hover transform on mobile */
-        }
-
-        /* Make search form full width and add margin */
-        .search-form {
-            margin: 1rem auto; /* Center the search form */
-            max-width: 90%;
-        }
+        .navbar-nav .nav-link:hover { transform: none; }
+        .navbar-nav .nav-link:hover::after { width: 50%; left: 25%; }
+        .dropdown-menu { box-shadow: none; background: transparent; text-align: center; margin-top: 0; }
+        .dropdown-item:hover { transform: none; }
+        .search-form { margin: 1rem auto; max-width: 90%; }
     }
 </style>
 

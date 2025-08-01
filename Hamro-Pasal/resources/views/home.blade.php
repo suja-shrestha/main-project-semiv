@@ -300,6 +300,8 @@
         margin-bottom: 3rem;
         color: #333;
         position: relative;
+        margin-top: 40px;
+
     }
 
     .section-title::after {
@@ -375,7 +377,6 @@
 
     /* Featured Products */
     .featured-products {
-        padding: 4rem 0;
         background: white;
     }
 

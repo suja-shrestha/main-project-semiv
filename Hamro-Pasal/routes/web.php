@@ -23,3 +23,7 @@ Route::get('/search', [SearchController::class, 'search'])->name('search');
 Route::get('/about', action: function () {return view('aboutus');})->name('about.us');
 Route::get('/homes', action: function (): Factory|View {return view('home');})->name('homes');
 Route::get('/contactus', action: function () {return view('contactus');})->name('contact.us');
+ Route::get('/products/{product}/edit', [Productv2Controller::class, 'edit'])->name('productv2.edit');
+    Route::put('/products/{product}', [Productv2Controller::class, 'update'])->name('productv2.update');
+   Route::get('/products/{product}/edit', [Productv2Controller::class, 'edit'])->name('productv2.edit');
+    Route::put('/products/{product}', [Productv2Controller::class, 'update'])->name('productv2.update');

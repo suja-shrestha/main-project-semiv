@@ -12,7 +12,7 @@ class Productv2Controller extends Controller
      */
     public function index()
     {
-        $products = Productv2::all();
+        $products = Productv2::latest()->get();
         return view('admin.products.index', compact('products'));
     }
 
@@ -37,37 +37,28 @@ class Productv2Controller extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'name'           => 'required|string|max:255',
             'description'    => 'nullable|string',
-            'price'          => 'required|numeric',
-            'stock'          => 'required|integer',
-            'image_url'      => 'nullable|string|max:255',
-            'reviews'        => 'nullable|json',
+            'price'          => 'required|numeric|min:0',
+            'stock'          => 'required|integer|min:0',
+            'image_url'      => 'nullable|string', 
             'category'       => 'required|string|max:100',
-
-            // Optional validation for the new fields
-            'is_new'         => 'nullable|boolean',
-            'is_featured'    => 'nullable|boolean',
-            'is_hot_sale'    => 'nullable|boolean',
-            'is_best_deal'   => 'nullable|boolean',
+            'is_new'         => 'nullable',
+            'is_featured'    => 'nullable',
+            'is_hot_sale'    => 'nullable',
+            'is_best_deal'   => 'nullable',
         ]);
 
-        Productv2::create([
-            'name'           => $request->name,
-            'description'    => $request->description,
-            'price'          => $request->price,
-            'stock'          => $request->stock,
-            'image_url'      => $request->image_url,
-            'reviews'        => $request->reviews,
-            'category'       => $request->category,
-            'is_new'         => $request->has('is_new'),
-            'is_featured'    => $request->has('is_featured'),
-            'is_hot_sale'    => $request->has('is_hot_sale'),
-            'is_best_deal'   => $request->has('is_best_deal'),
-        ]);
+        $validatedData['is_new'] = $request->has('is_new');
+        $validatedData['is_featured'] = $request->has('is_featured');
+        $validatedData['is_hot_sale'] = $request->has('is_hot_sale');
+        $validatedData['is_best_deal'] = $request->has('is_best_deal');
+        
+        Productv2::create($validatedData);
 
-        return redirect()->route('productv2.index')->with('success', 'Product added!');
+        // FIX: Reverted to the correct route name defined in your routes/web.php file
+        return redirect()->route('productv2.index')->with('success', 'Product added successfully!');
     }
 
     /**
@@ -78,6 +69,40 @@ class Productv2Controller extends Controller
         $product = Productv2::findOrFail($id);
         $product->delete();
 
-        return redirect()->route('productv2.index')->with('success', 'Product deleted!');
+        // FIX: Reverted to the correct route name here as well
+        return redirect()->route('productv2.index')->with('success', 'Product deleted successfully!');
+    }
+    
+    /**
+     * Show the form for editing the specified product.
+     */
+    public function edit(Productv2 $product)
+    {
+        return view('admin.products.edit', compact('product'));
+    }
+
+    /**
+     * Update the specified product in storage.
+     */
+    public function update(Request $request, Productv2 $product)
+    {
+        $validatedData = $request->validate([
+            'name'           => 'required|string|max:255',
+            'description'    => 'nullable|string',
+            'price'          => 'required|numeric|min:0',
+            'stock'          => 'required|integer|min:0',
+            'image_url'      => 'nullable|string',
+            'category'       => 'required|string|max:100',
+        ]);
+
+        $validatedData['is_new'] = $request->has('is_new');
+        $validatedData['is_featured'] = $request->has('is_featured');
+        $validatedData['is_hot_sale'] = $request->has('is_hot_sale');
+        $validatedData['is_best_deal'] = $request->has('is_best_deal');
+        
+        $product->update($validatedData);
+
+        // FIX: And also updated the route name in the update method
+        return redirect()->route('productv2.index')->with('success', 'Product updated successfully!');
     }
 }
