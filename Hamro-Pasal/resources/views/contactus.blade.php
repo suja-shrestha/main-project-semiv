@@ -6,7 +6,7 @@
     <div class="page-header">
         <div class="container text-center">
             <h1 class="display-4 fw-bold">Get In Touch</h1>
-            <p class="lead">We're here to help and eager to hear from you. Reach out to us!</p>
+            <p class="lead">We're here to help and eager to hear from you. Reach out to us now!</p>
         </div>
         <!-- SVG Wave for a smooth transition -->
         <div class="header-wave">
